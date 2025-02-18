@@ -1,4 +1,4 @@
-from application.db import db
+from application.extensions import db
 
 
 class Order(db.Model):
@@ -6,7 +6,7 @@ class Order(db.Model):
 
     order_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('application_user_data.user_id'), nullable=False)
-    user = db.relationship('User', backref='order')
+    user = db.relationship('ApplicationUser', backref='order')
     total_price = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), default="Pending")  # Pending, Shipped, Delivered, Canceled
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())

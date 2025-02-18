@@ -1,10 +1,10 @@
-from application.db import db
+from application.extensions import db
 
 
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref='cart_items')
+    user = db.relationship('ApplicationUser', backref='cart_items')
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product = db.relationship('Product', backref='cart_items')
     quantity = db.Column(db.Integer, default=1)

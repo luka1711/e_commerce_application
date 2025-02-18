@@ -1,4 +1,4 @@
-from application.db import db
+from application.extensions import db
 
 
 class Shipping(db.Model):
