@@ -1,11 +1,11 @@
-from flask import jsonify, current_app
+from flask import jsonify
 from flask_restful import Resource
 from application.model.ApplicationUser import ApplicationUser
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from application.extensions import db
 
 
-class UserService(Resource):
+class AuthenticationService(Resource):
     @staticmethod
     def user_registration(username, email, password):
         # Check if the user already exists
@@ -36,14 +36,11 @@ class UserService(Resource):
 
         return jsonify(message="User successfully logged in.", access_token=access_token), 200
 
-
-
     @staticmethod
     @jwt_required()
     def get_all_users():
         user_identity = get_jwt_identity()
         print("Current user:", user_identity)
-       # Ensures the app context is available
         print(ApplicationUser.query)
         users = ApplicationUser.query.all()
         return jsonify([{

@@ -1,34 +1,33 @@
 from flask import Blueprint, jsonify, request
-from application.resources.user.user_service import UserService
-from application.model import ApplicationUser
+from application.resources.user.authentication_service import AuthenticationService
 
-user_bp = Blueprint('user_', __name__, url_prefix='/api/users')
+authentication_bp = Blueprint('authentication', __name__, url_prefix='/api/auth')
 
 
-@user_bp.route('/register', methods=['POST'])
+@authentication_bp.route('/register', methods=['POST'])
 def user_registration():
     data = request.get_json()
     try:
         if not data:
             return jsonify({'message': 'No data'}), 400
 
-        return UserService.user_registration(data['username'], data['email'], data['password'])
+        return AuthenticationService.user_registration(data['username'], data['email'], data['password'])
     except Exception as e:
         return jsonify({'exception': str(e), 'message': 'Wrong body provided. Required are username, email and password'}), 400
 
 
-@user_bp.route('/login', methods=['POST'])
+@authentication_bp.route('/login', methods=['POST'])
 def user_login():
     data = request.get_json()
     try:
         if not data:
             return jsonify({'message': 'No data'}), 400
         else:
-            return UserService.user_login(data['email'], data['password'])
+            return AuthenticationService.user_login(data['email'], data['password'])
     except:
         return jsonify({'message': 'Invalid body provided. Required are email and password'}), 400
 
 
-@user_bp.route('/', methods=['GET'])
+@authentication_bp.route('/', methods=['GET'])
 def get_users():
-    return UserService.get_all_users()
+    return AuthenticationService.get_all_users()

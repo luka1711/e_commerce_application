@@ -2,7 +2,9 @@
 from flask import Flask
 from application.extensions import db, jwt
 from application.config import Config
-from application.resources.user import user_bp
+from application.resources.user import authentication_bp
+from application.resources.product import product_bp
+from application.resources.category import category_bp
 
 
 def create_app():
@@ -15,7 +17,9 @@ def create_app():
     jwt.init_app(app)
 
     # Register the blueprints for different parts of the application
-    app.register_blueprint(user_bp)
+    app.register_blueprint(authentication_bp)
+    app.register_blueprint(product_bp)
+    app.register_blueprint(category_bp)
 
     with app.app_context():
         db.create_all()  # This will create all tables defined by your models

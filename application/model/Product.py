@@ -11,7 +11,7 @@ class Product(db.Model):
     image_url = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
     category = db.relationship('Category', backref='products')
 
     def __init__(self, name, description, price, in_stock, total_stock, image_url):
